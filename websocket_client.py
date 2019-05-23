@@ -3,9 +3,10 @@ from json import dumps, loads
 
 
 def on_message(ws, message):
-    trades = open("trades.txt", "a")
+    btc_message = loads(message)
+    trades = open("trades.csv", "a")
     trades.write("\n")
-    trades.write(message)
+    trades.write("Time: " + btc_message['time'] + ", Price: " + btc_message['price'])
     trades.close()
 
 
