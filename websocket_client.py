@@ -1,9 +1,9 @@
-from websocket import WebSocketApp
-from json import dumps, loads
+import websocket
+import json
 
 
 def on_message(ws, message):
-    btc_message = loads(message)
+    btc_message = json.loads(message)
     trades = open("trades.csv", "a")
     trades.write("\n")
     trades.write("Time: " + btc_message['time'] + ", Price: " + btc_message['price'])
@@ -15,11 +15,11 @@ def on_open(socket):
         "type": "subscribe",
         "channels": [{"name": "ticker", "product_ids": ["BTC-USD"]}]
     }
-    socket.send(dumps(params))
+    socket.send(json.dumps(params))
 
 
 def main():
-    ws = WebSocketApp("wss://ws-feed.pro.coinbase.com", on_open=on_open, on_message=on_message)
+    ws = websocket.WebSocketApp("wss://ws-feed.pro.coinbase.com", on_open=on_open, on_message=on_message)
     ws.run_forever()
 
 
