@@ -1,35 +1,40 @@
 import websocket
 import json
 
+
 URL = "wss://ws-feed.pro.coinbase.com"
 
 
-def on_message(ws, message):
-    print(ws)
-    btc_message = json.loads(message)
-    trades = open("trades.csv", "a")
-    trades.write("\n")
-    trades.write("Time: " + btc_message['time'] + ", Price: " + btc_message['price'])
-    trades.close()
+class CoinbaseFeed(object):
 
+    def __init__(self):
+        print("Running Now")
+        self.ws = websocket.WebSocketApp(URL,on_message=self.on_ws_message, on_open=self.on_ws_open)
 
-def on_open(socket):
-    print(socket)
-    params = {
-        "type": "subscribe",
-        "channels": [{"name": "ticker", "product_ids": ["BTC-USD"]}]
-    }
-    socket.send(json.dumps(params))
+    def run_forever(self):
+        self.ws.run_forever()
 
+    def on_ws_message(self, message):
+        print(message)
+        btc_message = json.loads(message)
+        trades = open("trades.csv", "a")
+        trades.write("\n")
+        trades.write("Time: " + btc_message['time'] + ", Price: " + btc_message['price'])
+        trades.close()
+        print("Writing into file")
 
-def main():
+    def on_ws_open(self):
+        print("Opening connection")
+        params = {
+            "type": "subscribe",
+            "channels": [{"name": "ticker", "product_ids": ["BTC-USD"]}]
+        }
+        self.ws.send(json.dumps(params))
 
-    ws = websocket.WebSocketApp(URL, on_open=on_open, on_message=on_message)
-    ws.run_forever()
+    def close_connection(self):
+        self.ws.close()
 
 
 if __name__ == '__main__':
-    main()
-
-
-
+    ws = CoinbaseFeed()
+    ws.run_forever()
