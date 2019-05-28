@@ -9,8 +9,8 @@ URL = "wss://ws-feed.pro.coinbase.com"
 # opens the file in append mode, writes and closes the file
 def write_to_file(line):
     trades = open("trades.csv", "a")
-    trades.write("\n")
     trades.write(line)
+    trades.write("\n")
     trades.close()
 
 # accepts the message to be processed and written to file
