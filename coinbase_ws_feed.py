@@ -8,16 +8,16 @@ URL = "wss://ws-feed.pro.coinbase.com"
 # accepts a string to write to file
 # opens the file in append mode, writes and closes the file
 def write_to_file(line):
-    trades = open("trades.csv", "a")
-    trades.write("\n")
-    trades.write(line)
-    trades.close()
+    with open("trades.csv", "a") as trades:
+        trades.write(line)
+        trades.write("\n")
+        trades.flush()
 
 # accepts the message to be processed and written to file
 # formats in the required manner
 def get_line_for_file(message):
     btc_message = json.loads(message)
-    line_to_write = "Time: " + btc_message['time'] + ", Price: " + btc_message['price']
+    line_to_write = btc_message['time'] + "," + btc_message['price']
     return line_to_write
 
 
