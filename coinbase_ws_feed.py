@@ -1,33 +1,26 @@
 import websocket
 import json
+import csv
 
 # Coinbase Websocket Feed URL
 URL = "wss://ws-feed.pro.coinbase.com"
 
 
-# accepts a string to write to file
-# opens the file in append mode, writes and closes the file
-def write_to_file(line):
-    with open("trades.csv", "a") as trades:
-        trades.write(line)
-        trades.write("\n")
-        trades.flush()
-
-# accepts the message to be processed and written to file
-# formats in the required manner
-def get_line_for_file(message):
-    btc_message = json.loads(message)
-    line_to_write = btc_message['time'] + "," + btc_message['price']
-    return line_to_write
+# accepts the message that needs to be processed to be printed
+# opens the file in append mode, writes to file
+def write_to_file(btc_message):
+    with open("trades.csv", "a", newline='') as trades:
+        file_writer = csv.writer(trades)  # type: object
+        file_writer.writerow([btc_message['time'], btc_message['price']])
 
 
 # accepts a message, converts to json
 # processes it in the format required to be written to file
 def process_message_and_create_file(message):
-    line_to_write = get_line_for_file(message)
-    # write to file only if this is not an empty string
-    if line_to_write:
-        write_to_file(line_to_write)
+    # line_to_write = get_line_for_file(message)
+    btc_message = json.loads(message)
+    if btc_message['time']:
+        write_to_file(btc_message)
 
 
 class CoinbaseFeed(object):

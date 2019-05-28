@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import coinbase_ws_feed
+import csv
 
 
 def test_coinbase_ws_feed_URL():
@@ -28,10 +29,4 @@ def test_coinbase_ws_feed_is_file_created():
     # the file should not be empty
     assert is_file_empty('trades.csv') == False
 
-
-# test that we are printing exactly what's required to the file
-# i.e. we only require to print the Time and Price field,
-def test_get_line_for_file():
-    line_for_file = "2019-05-25T16:19:31.290000Z,Price: 8043.15000000"
-    assert line_for_file == coinbase_ws_feed.get_line_for_file(get_example_trade())
 
