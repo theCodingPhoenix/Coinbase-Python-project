@@ -10,10 +10,10 @@ URL = "wss://ws-feed.pro.coinbase.com"
 # checks whether the file already exists
 # if not, creates it with header
 def create_file_with_header():
-    trades_file = Path("trades.csv")
+    trades_file = Path("btc_usd_coinbase_ws_trades.csv")
     # the file should be created
     if not trades_file.is_file():
-        with open("trades.csv", "a", newline='') as trades:
+        with open("btc_usd_coinbase_ws_trades.csv", "a", newline='') as trades:
             file_writer = csv.writer(trades)
             file_writer.writerow(['Time','Price'])
 
@@ -21,7 +21,7 @@ def create_file_with_header():
 # accepts the message that needs to be processed to be printed
 # opens the file in append mode, writes to file
 def write_to_file(btc_message):
-    with open("trades.csv", "a", newline='') as trades:
+    with open("btc_usd_coinbase_ws_trades.csv", "a", newline='') as trades:
         file_writer = csv.writer(trades)
         file_writer.writerow([btc_message['time'], btc_message['price']])
 
