@@ -22,13 +22,13 @@ def is_file_empty(file_path):
 # tests that the file is created and is not empty
 def test_coinbase_ws_feed_is_file_created():
     # this establishes the connection and checks the on_message method to ensure
-    # a file is created by the name trades.csv
+    # a file is created by the name btc_usd_coinbase_ws_trades.csv
     coinbase_ws_feed.create_file_with_header()
-    trades_file = Path("trades.csv")
+    trades_file = Path("btc_usd_coinbase_ws_trades.csv")
     # the file should be created
     assert trades_file.is_file() == True
     # the file should not be empty
-    assert is_file_empty('trades.csv') == False
+    assert is_file_empty('btc_usd_coinbase_ws_trades.csv') == False
 
 
 # tests whether trades are being saved
