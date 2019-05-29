@@ -19,6 +19,6 @@ Python 2.x or Python 3.x
 ``` JetBrains PyCharm Community Edition 2019.1.2```
 
 ### Project
-* For development
+For development
 ``` git clone https://github.com/numencapital/coinbase-aakanksha.git ```
 
