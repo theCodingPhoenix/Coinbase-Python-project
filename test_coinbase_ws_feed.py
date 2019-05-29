@@ -39,7 +39,7 @@ def test_coinbase_ws_feed_saving_trades_to_csv():
     ws.on_ws_message(get_example_trade())
 
     # open the file and read the data
-    with open("trades.csv", "r") as trades:
+    with open("btc_usd_coinbase_ws_trades.csv", "r") as trades:
         reader = csv.reader(trades, delimiter=",")
         data = list(reader)
         row_count = len(data)
