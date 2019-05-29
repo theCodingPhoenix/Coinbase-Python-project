@@ -1,17 +1,26 @@
 import websocket
 import json
 import csv
+from pathlib import Path
 
 # Coinbase Websocket Feed URL
 URL = "wss://ws-feed.pro.coinbase.com"
 
 
-# accepts the message that needs to be processed to be printed
+# accepts the row that needs to be written to the file
 # opens the file in append mode, writes to file
-def write_to_file(btc_message):
-    with open("trades.csv", "a", newline='') as trades:
-        file_writer = csv.writer(trades)  # type: object
-        file_writer.writerow([btc_message['time'], btc_message['price']])
+def write_to_file(file_name, row):
+    with open(file_name, "a", newline='') as trades:
+        file_writer = csv.writer(trades)
+        file_writer.writerow(row)
+
+# checks whether the file already exists
+# if not, creates it with header
+def create_file_with_header():
+    trades_file = Path("btc_usd_coinbase_ws_trades.csv")
+    # the file should be created
+    if not trades_file.is_file():
+        write_to_file("btc_usd_coinbase_ws_trades.csv", ['Time','Price'])
 
 
 # accepts a message, converts to json
@@ -20,7 +29,7 @@ def process_message_and_create_file(message):
     # line_to_write = get_line_for_file(message)
     btc_message = json.loads(message)
     if btc_message['time']:
-        write_to_file(btc_message)
+        write_to_file("btc_usd_coinbase_ws_trades.csv", [btc_message['time'], btc_message['price']])
 
 
 class CoinbaseFeed(object):
@@ -49,6 +58,9 @@ class CoinbaseFeed(object):
 
 
 if __name__ == '__main__':
+
+    create_file_with_header()
+
     ws = CoinbaseFeed()
     # the feed should keep running and logging
     # the realtime updates that are obtained
