@@ -23,12 +23,12 @@ def is_file_empty(file_path):
 def test_coinbase_ws_feed_is_file_created():
     # this establishes the connection and checks the on_message method to ensure
     # a file is created by the name btc_usd_coinbase_ws_trades.csv
-    coinbase_ws_feed.create_file_with_header()
-    trades_file = Path("btc_usd_coinbase_ws_trades.csv")
+    ws = coinbase_ws_feed.CoinbaseFeed()
+    trades_file = Path("btc_usd_trades.csv")
     # the file should be created
     assert trades_file.is_file() == True
     # the file should not be empty
-    assert is_file_empty('btc_usd_coinbase_ws_trades.csv') == False
+    assert is_file_empty('btc_usd_trades.csv') == False
 
 
 # tests whether trades are being saved
@@ -39,7 +39,7 @@ def test_coinbase_ws_feed_saving_trades_to_csv():
     ws.on_ws_message(get_example_trade())
 
     # open the file and read the data
-    with open("btc_usd_coinbase_ws_trades.csv", "r") as trades:
+    with open("btc_usd_trades.csv", "r") as trades:
         reader = csv.reader(trades, delimiter=",")
         data = list(reader)
         row_count = len(data)
