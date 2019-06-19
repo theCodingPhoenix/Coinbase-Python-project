@@ -20,5 +20,5 @@ Python 2.x or Python 3.x
 
 ### Project
 For development
-``` git clone https://github.com/numencapital/coinbase-aakanksha.git ```
+``` git clone https://github.com/theCodingPhoenix/Coinbase-Python-project.git ```
 
